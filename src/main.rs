@@ -6,8 +6,9 @@ use std::fmt;
 fn main() -> Result<()> {
     let action_choices = [ActionChoice::Add, ActionChoice::Select];
     let term = Term::stderr();
+    let theme = ColorfulTheme::default();
 
-    let selection = Select::with_theme(&ColorfulTheme::default())
+    let selection = Select::with_theme(&theme)
         .with_prompt("What do you want to do?")
         .items(&action_choices)
         .default(0)
@@ -18,9 +19,10 @@ fn main() -> Result<()> {
         None => return Ok(()),
     };
 
-    println!("User selected: {}", selection);
-
-    Ok(())
+    match selection {
+        ActionChoice::Add => add::main(term, theme),
+        _ => unimplemented!(),
+    }
 }
 
 enum ActionChoice {
@@ -38,3 +40,5 @@ impl fmt::Display for ActionChoice {
         }
     }
 }
+
+mod add;
