@@ -11,4 +11,8 @@ categories = ["command-line-utilities"]
 repository = "https://github.com/spenserblack/change-git-user"
 publish = false # You should at least look at this file before you publish
 
+[[bin]]
+name = "cgu"
+path = "src/main.rs"
+
 [dependencies]
