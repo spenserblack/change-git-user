@@ -1,3 +1,4 @@
+use super::User;
 use anyhow::Result;
 use console::Term;
 use dialoguer::{theme::ColorfulTheme, Input};
@@ -36,9 +37,13 @@ pub fn main(term: Term, theme: ColorfulTheme) -> Result<()> {
         Some(signing_key)
     };
 
-    println!("name: {:?}", name);
-    println!("email: {:?}", email);
-    println!("signingKey: {:?}", signing_key);
+    let user = User {
+        name,
+        email,
+        signing_key,
+    };
+
+    println!("user: {}", user);
 
     Ok(())
 }

@@ -2,6 +2,7 @@ use anyhow::Result;
 use console::Term;
 use dialoguer::{theme::ColorfulTheme, Select};
 use std::fmt;
+pub use user::User;
 
 fn main() -> Result<()> {
     let action_choices = [ActionChoice::Add, ActionChoice::Select];
@@ -42,3 +43,4 @@ impl fmt::Display for ActionChoice {
 }
 
 mod add;
+mod user;
