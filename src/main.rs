@@ -22,7 +22,7 @@ fn main() -> Result<()> {
 
     match selection {
         ActionChoice::Add => add::main(term, theme),
-        _ => unimplemented!(),
+        _ => select::main(term, theme),
     }
 }
 
@@ -43,4 +43,5 @@ impl fmt::Display for ActionChoice {
 }
 
 mod add;
+mod select;
 mod user;
