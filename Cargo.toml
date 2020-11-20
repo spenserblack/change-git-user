@@ -16,3 +16,6 @@ name = "cgu"
 path = "src/main.rs"
 
 [dependencies]
+anyhow = "1"
+console = "0.13"
+dialoguer = "0.7"
