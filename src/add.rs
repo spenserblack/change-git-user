@@ -43,7 +43,12 @@ pub fn main(term: Term, theme: ColorfulTheme) -> Result<()> {
         signing_key,
     };
 
-    let users = Users::new(vec![user]);
+    let mut users = match super::read_users() {
+        Some(Ok(users)) => users,
+        Some(Err(e)) => return Err(e),
+        None => Users::default(),
+    };
+    users.push(user);
 
     super::write_users(&users)
 }

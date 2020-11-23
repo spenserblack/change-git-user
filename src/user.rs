@@ -33,4 +33,14 @@ impl Users {
             users,
         }
     }
+
+    pub fn push(&mut self, user: User) {
+        self.users.push(user);
+    }
+}
+
+impl Default for Users {
+    fn default() -> Self {
+        Users { users: Vec::with_capacity(1) }
+    }
 }

@@ -28,6 +28,14 @@ fn main() -> Result<()> {
     }
 }
 
+fn read_users() -> Option<Result<Users>> {
+    use std::fs;
+
+    let bytes = fs::read(USERS_FILENAME).ok()?;
+    let users: Result<Users> = toml::from_slice(&bytes).context("Failed to parse users");
+    Some(users)
+}
+
 fn write_users(users: &Users) -> Result<()> {
     use std::fs;
 
