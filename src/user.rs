@@ -1,6 +1,8 @@
 use console::style;
+use serde::{Deserialize, Serialize};
 use std::fmt;
 
+#[derive(Deserialize, Serialize)]
 pub struct User {
     pub name: String,
     pub email: String,
@@ -16,5 +18,19 @@ impl fmt::Display for User {
         }
 
         Ok(())
+    }
+}
+
+#[derive(Deserialize, Serialize)]
+pub struct Users {
+    #[serde(rename = "user")]
+    users: Vec<User>,
+}
+
+impl Users {
+    pub fn new(users: Vec<User>) -> Self {
+        Users {
+            users,
+        }
     }
 }

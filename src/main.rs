@@ -2,7 +2,7 @@ use anyhow::Result;
 use console::Term;
 use dialoguer::{theme::ColorfulTheme, Select};
 use std::fmt;
-pub use user::User;
+pub use user::{User, Users};
 
 fn main() -> Result<()> {
     let action_choices = [ActionChoice::Add, ActionChoice::Select];

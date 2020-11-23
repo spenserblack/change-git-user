@@ -1,4 +1,4 @@
-use super::User;
+use super::{User, Users};
 use anyhow::Result;
 use console::Term;
 use dialoguer::{theme::ColorfulTheme, Input};
@@ -43,7 +43,9 @@ pub fn main(term: Term, theme: ColorfulTheme) -> Result<()> {
         signing_key,
     };
 
-    println!("user: {}", user);
+    let users = Users::new(vec![user]);
+
+    println!("users:\n{}", toml::to_string(&users).unwrap());
 
     Ok(())
 }
