@@ -45,7 +45,5 @@ pub fn main(term: Term, theme: ColorfulTheme) -> Result<()> {
 
     let users = Users::new(vec![user]);
 
-    println!("users:\n{}", toml::to_string(&users).unwrap());
-
-    Ok(())
+    super::write_users(&users)
 }

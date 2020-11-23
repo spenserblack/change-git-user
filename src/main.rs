@@ -1,8 +1,10 @@
-use anyhow::Result;
+use anyhow::{Context, Result};
 use console::Term;
 use dialoguer::{theme::ColorfulTheme, Select};
 use std::fmt;
 pub use user::{User, Users};
+
+const USERS_FILENAME: &str = "gcu-users.toml";
 
 fn main() -> Result<()> {
     let action_choices = [ActionChoice::Add, ActionChoice::Select];
@@ -24,6 +26,14 @@ fn main() -> Result<()> {
         ActionChoice::Add => add::main(term, theme),
         _ => select::main(term, theme),
     }
+}
+
+fn write_users(users: &Users) -> Result<()> {
+    use std::fs;
+
+    let users = toml::to_string(users).context("Failed to write users to TOML")?;
+
+    fs::write(USERS_FILENAME, users).context("Failed to write users to file")
 }
 
 enum ActionChoice {
