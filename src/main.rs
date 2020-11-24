@@ -2,10 +2,10 @@ use anyhow::{Context, Result};
 pub use config::change_config;
 use console::Term;
 use dialoguer::{theme::ColorfulTheme, Select};
-use std::fmt;
+use std::{fmt, path::PathBuf};
 pub use user::{User, Users};
 
-const USERS_FILENAME: &str = "gcu-users.toml";
+const DATA_FILENAME: &str = "change-git-user.users.toml";
 
 fn main() -> Result<()> {
     let term = Term::stderr();
@@ -42,10 +42,18 @@ fn main() -> Result<()> {
     }
 }
 
+fn data_dir() -> Result<PathBuf> {
+    dirs::data_local_dir().context("Couldn't find data directory")
+}
+
 fn read_users() -> Option<Result<Users>> {
     use std::fs;
 
-    let bytes = fs::read(USERS_FILENAME).ok()?;
+    let base = match data_dir() {
+        Ok(dir) => dir,
+        Err(e) => return Some(Err(e)),
+    };
+    let bytes = fs::read(base.join(DATA_FILENAME)).ok()?;
     let users: Result<Users> = toml::from_slice(&bytes).context("Failed to parse users");
     Some(users)
 }
@@ -55,7 +63,7 @@ fn write_users(users: &Users) -> Result<()> {
 
     let users = toml::to_string(users).context("Failed to write users to TOML")?;
 
-    fs::write(USERS_FILENAME, users).context("Failed to write users to file")
+    fs::write(data_dir()?.join(DATA_FILENAME), users).context("Failed to write users to file")
 }
 
 enum ActionChoice {
