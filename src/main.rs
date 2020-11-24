@@ -37,7 +37,7 @@ fn main() -> Result<()> {
 
     match selection {
         ActionChoice::Add => add::main(users, term, theme),
-        _ => select::main(term, theme),
+        _ => select::main(users, term, theme),
     }
 }
 
