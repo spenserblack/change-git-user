@@ -19,7 +19,7 @@ fn main() -> Result<()> {
         vec![ActionChoice::Add]
     };
 
-    let mut users = match users {
+    let users = match users {
         Some(Ok(users)) => users,
         Some(Err(e)) => return Err(e),
         None => Users::default(),
