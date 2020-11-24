@@ -1,4 +1,4 @@
-use super::{User, Users, change_config};
+use super::{change_config, User, Users};
 use anyhow::Result;
 use console::Term;
 use dialoguer::{theme::ColorfulTheme, Confirm, Input};

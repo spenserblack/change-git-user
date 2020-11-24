@@ -1,10 +1,9 @@
-use super::{Users, change_config};
+use super::{change_config, Users};
 use anyhow::Result;
 use console::Term;
 use dialoguer::{theme::ColorfulTheme, Select};
 
 pub fn main(users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
-
     let selection = Select::with_theme(&theme)
         .with_prompt("Select a git config:")
         .items(&users)

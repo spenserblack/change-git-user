@@ -11,7 +11,12 @@ pub struct User {
 
 impl fmt::Display for User {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{} <{}>", style(&self.name).bold(), style(&self.email).underlined())?;
+        write!(
+            f,
+            "{} <{}>",
+            style(&self.name).bold(),
+            style(&self.email).underlined()
+        )?;
         match &self.signing_key {
             Some(signing_key) => write!(f, " {}", style(signing_key).green().italic())?,
             None => {}
@@ -29,9 +34,7 @@ pub struct Users {
 
 impl Users {
     pub fn new(users: Vec<User>) -> Self {
-        Users {
-            users,
-        }
+        Users { users }
     }
 
     pub fn push(&mut self, user: User) {
@@ -41,7 +44,9 @@ impl Users {
 
 impl Default for Users {
     fn default() -> Self {
-        Users { users: Vec::with_capacity(1) }
+        Users {
+            users: Vec::with_capacity(1),
+        }
     }
 }
 
