@@ -1,6 +1,6 @@
 use console::style;
 use serde::{Deserialize, Serialize};
-use std::fmt;
+use std::{fmt, ops::Deref};
 
 #[derive(Deserialize, Serialize)]
 pub struct User {
@@ -42,5 +42,13 @@ impl Users {
 impl Default for Users {
     fn default() -> Self {
         Users { users: Vec::with_capacity(1) }
+    }
+}
+
+impl Deref for Users {
+    type Target = Vec<User>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.users
     }
 }
