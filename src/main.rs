@@ -7,9 +7,22 @@ pub use user::{User, Users};
 const USERS_FILENAME: &str = "gcu-users.toml";
 
 fn main() -> Result<()> {
-    let action_choices = [ActionChoice::Add, ActionChoice::Select];
     let term = Term::stderr();
     let theme = ColorfulTheme::default();
+
+    let users = read_users();
+
+    let action_choices = if users.is_some() {
+        vec![ActionChoice::Add, ActionChoice::Select]
+    } else {
+        vec![ActionChoice::Add]
+    };
+
+    let mut users = match users {
+        Some(Ok(users)) => users,
+        Some(Err(e)) => return Err(e),
+        None => Users::default(),
+    };
 
     let selection = Select::with_theme(&theme)
         .with_prompt("What do you want to do?")
@@ -23,7 +36,7 @@ fn main() -> Result<()> {
     };
 
     match selection {
-        ActionChoice::Add => add::main(term, theme),
+        ActionChoice::Add => add::main(users, term, theme),
         _ => select::main(term, theme),
     }
 }

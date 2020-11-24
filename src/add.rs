@@ -3,7 +3,7 @@ use anyhow::Result;
 use console::Term;
 use dialoguer::{theme::ColorfulTheme, Input};
 
-pub fn main(term: Term, theme: ColorfulTheme) -> Result<()> {
+pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
     let name: String = Input::with_theme(&theme)
         .with_prompt("user.name")
         .interact_text_on(&term)?;
@@ -43,11 +43,6 @@ pub fn main(term: Term, theme: ColorfulTheme) -> Result<()> {
         signing_key,
     };
 
-    let mut users = match super::read_users() {
-        Some(Ok(users)) => users,
-        Some(Err(e)) => return Err(e),
-        None => Users::default(),
-    };
     users.push(user);
 
     super::write_users(&users)
