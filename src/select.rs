@@ -1,4 +1,4 @@
-use super::Users;
+use super::{Users, change_config};
 use anyhow::Result;
 use console::Term;
 use dialoguer::{theme::ColorfulTheme, Select};
@@ -12,7 +12,5 @@ pub fn main(users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
 
     let selection = &users[selection];
 
-    println!("User selected {}", selection);
-
-    Ok(())
+    change_config(&selection)
 }

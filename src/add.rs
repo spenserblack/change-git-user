@@ -1,4 +1,4 @@
-use super::{User, Users};
+use super::{User, Users, change_config};
 use anyhow::Result;
 use console::Term;
 use dialoguer::{theme::ColorfulTheme, Confirm, Input};
@@ -43,10 +43,14 @@ pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
         signing_key,
     };
 
-    let _switch_user = Confirm::with_theme(&theme)
+    let switch_user = Confirm::with_theme(&theme)
         .with_prompt("Switch to this user?")
         .default(true)
         .interact_on(&term)?;
+
+    if switch_user {
+        change_config(&user)?;
+    }
 
     users.push(user);
 

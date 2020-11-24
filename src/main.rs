@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+pub use config::change_config;
 use console::Term;
 use dialoguer::{theme::ColorfulTheme, Select};
 use std::fmt;
@@ -74,5 +75,6 @@ impl fmt::Display for ActionChoice {
 }
 
 mod add;
+mod config;
 mod select;
 mod user;
