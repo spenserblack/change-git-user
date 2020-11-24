@@ -6,6 +6,7 @@ use std::{fmt, ops::Deref};
 pub struct User {
     pub name: String,
     pub email: String,
+    #[serde(rename = "signing-key")]
     pub signing_key: Option<String>,
 }
 
