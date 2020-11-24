@@ -1,4 +1,4 @@
-use super::User;
+use super::Users;
 use anyhow::Result;
 use console::Term;
 use dialoguer::{theme::ColorfulTheme, Select};
