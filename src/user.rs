@@ -11,9 +11,9 @@ pub struct User {
 
 impl fmt::Display for User {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{} <{}>", self.name, self.email)?;
+        write!(f, "{} <{}>", style(&self.name).bold(), style(&self.email).underlined())?;
         match &self.signing_key {
-            Some(signing_key) => write!(f, " ({})", style(signing_key).green())?,
+            Some(signing_key) => write!(f, " {}", style(signing_key).green().italic())?,
             None => {}
         }
 
