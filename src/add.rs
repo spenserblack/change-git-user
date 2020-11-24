@@ -1,7 +1,7 @@
 use super::{User, Users};
 use anyhow::Result;
 use console::Term;
-use dialoguer::{theme::ColorfulTheme, Input};
+use dialoguer::{theme::ColorfulTheme, Confirm, Input};
 
 pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
     let name: String = Input::with_theme(&theme)
@@ -42,6 +42,11 @@ pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
         email,
         signing_key,
     };
+
+    let _switch_user = Confirm::with_theme(&theme)
+        .with_prompt("Switch to this user?")
+        .default(true)
+        .interact_on(&term)?;
 
     users.push(user);
 
