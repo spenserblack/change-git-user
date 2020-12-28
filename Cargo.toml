@@ -21,7 +21,7 @@ path = "src/main.rs"
 
 [dependencies]
 anyhow = "1"
-console = "0.13"
+console = "0.14"
 dialoguer = "0.7"
 dirs = "3"
 git2 = { version = "0.13", default-features = false }
