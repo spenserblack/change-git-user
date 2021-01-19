@@ -52,7 +52,7 @@ pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
         change_config(&user)?;
     }
 
-    users.push(user);
+    users.insert(user.to_string(), user);
 
     super::write_users(&users)
 }
