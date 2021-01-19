@@ -31,6 +31,11 @@ pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
         })
         .interact_text_on(&term)?;
 
+    let alias: String = Input::with_theme(&theme)
+        .with_prompt("Give this config a name")
+        .with_initial_text(&name)
+        .interact_text_on(&term)?;
+
     let signing_key = if signing_key.is_empty() {
         None
     } else {
@@ -52,7 +57,7 @@ pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
         change_config(&user)?;
     }
 
-    users.insert(user.to_string(), user);
+    users.insert(alias, user);
 
     super::write_users(&users)
 }
