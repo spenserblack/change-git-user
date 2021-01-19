@@ -1,6 +1,6 @@
 use console::style;
 use serde::{Deserialize, Serialize};
-use std::{fmt, ops::Deref};
+use std::{collections::HashMap, fmt};
 
 #[derive(Deserialize, Serialize)]
 pub struct User {
@@ -27,34 +27,4 @@ impl fmt::Display for User {
     }
 }
 
-#[derive(Deserialize, Serialize)]
-pub struct Users {
-    #[serde(rename = "user")]
-    users: Vec<User>,
-}
-
-impl Users {
-    pub fn new(users: Vec<User>) -> Self {
-        Users { users }
-    }
-
-    pub fn push(&mut self, user: User) {
-        self.users.push(user);
-    }
-}
-
-impl Default for Users {
-    fn default() -> Self {
-        Users {
-            users: Vec::with_capacity(1),
-        }
-    }
-}
-
-impl Deref for Users {
-    type Target = Vec<User>;
-
-    fn deref(&self) -> &Self::Target {
-        &self.users
-    }
-}
+pub type Users = HashMap<String, User>;
