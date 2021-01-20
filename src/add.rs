@@ -1,6 +1,6 @@
 use super::{change_config, User, Users};
 use anyhow::Result;
-use console::Term;
+use console::{style, Term};
 use dialoguer::{theme::ColorfulTheme, Confirm, Input};
 
 pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
@@ -31,7 +31,7 @@ pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
         })
         .interact_text_on(&term)?;
 
-    let alias: String = Input::with_theme(&theme)
+    let mut alias: String = Input::with_theme(&theme)
         .with_prompt("Give this config a name")
         .with_initial_text(&name)
         .interact_text_on(&term)?;
@@ -57,6 +57,22 @@ pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
         change_config(&user)?;
     }
 
+    if users.contains_key(&alias) {
+        eprintln!(
+            "{log} config with name {name:?} already exists",
+            log = style("[WARNING]").yellow().bold(),
+            name = alias,
+        );
+        let mut backup_counter = 1;
+        alias = loop {
+            let backup_name = format!("{} ({})", alias, backup_counter);
+            if !users.contains_key(&backup_name) {
+                break backup_name;
+            }
+            backup_counter += 1;
+        };
+        println!("Saving as {:?}", alias);
+    }
     users.insert(alias, user);
 
     super::write_users(&users)
