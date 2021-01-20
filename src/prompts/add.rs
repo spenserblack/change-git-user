@@ -1,4 +1,4 @@
-use super::{change_config, User, Users};
+use crate::{change_config, write_users, User, Users};
 use anyhow::Result;
 use console::{style, Term};
 use dialoguer::{theme::ColorfulTheme, Confirm, Input};
@@ -75,5 +75,5 @@ pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
     }
     users.insert(alias, user);
 
-    super::write_users(&users)
+    write_users(&users)
 }

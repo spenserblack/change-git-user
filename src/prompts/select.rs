@@ -1,4 +1,4 @@
-use super::{change_config, Users};
+use crate::{change_config, Users};
 use anyhow::Result;
 use console::Term;
 use dialoguer::{theme::ColorfulTheme, Select};

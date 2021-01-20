@@ -1,4 +1,4 @@
-use super::Users;
+use crate::{write_users, Users};
 use anyhow::Result;
 use console::Term;
 use dialoguer::{theme::ColorfulTheme, MultiSelect};
@@ -15,5 +15,5 @@ pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
         users.remove(key);
     }
 
-    super::write_users(&users)
+    write_users(&users)
 }
