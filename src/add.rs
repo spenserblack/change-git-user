@@ -2,6 +2,7 @@ use super::{change_config, User, Users};
 use anyhow::Result;
 use console::Term;
 use dialoguer::{theme::ColorfulTheme, Confirm, Input};
+use indoc::indoc;
 
 pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
     let name: String = Input::with_theme(&theme)
@@ -31,10 +32,29 @@ pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
         })
         .interact_text_on(&term)?;
 
-    let alias: String = Input::with_theme(&theme)
+    let mut alias: String = Input::with_theme(&theme)
         .with_prompt("Give this config a name")
         .with_initial_text(&name)
         .interact_text_on(&term)?;
+
+    let alias: String = loop {
+        if !users.contains_key(&alias) {
+            break alias;
+        }
+        let overwrite: bool = Confirm::with_theme(&theme)
+            .with_prompt(indoc! {"
+                A config with this name already exists and will be \
+                overwritten. Overwrite?
+            "})
+            .interact_on(&term)?;
+        if overwrite {
+            break alias;
+        }
+        alias = Input::with_theme(&theme)
+            .with_prompt("Pick a new name")
+            .with_initial_text(&alias)
+            .interact_text_on(&term)?;
+    };
 
     let signing_key = if signing_key.is_empty() {
         None
