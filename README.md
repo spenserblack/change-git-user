@@ -18,7 +18,7 @@ cargo install change-git-user
 ## Usage
 
 ```bash
-# This will spawn prompts to guide you through creating/selecting a user config
+# This will spawn prompts to guide you through managing user configurations
 cgu
 ```
 
