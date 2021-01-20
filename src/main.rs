@@ -8,6 +8,8 @@ pub use user::{User, Users};
 const DATA_FILENAME: &str = "change-git-user.users.toml";
 
 fn main() -> Result<()> {
+    let _ = cli::cgu_app().get_matches();
+
     let term = Term::stderr();
     let theme = ColorfulTheme::default();
 
@@ -89,6 +91,7 @@ impl fmt::Display for ActionChoice {
     }
 }
 
+mod cli;
 mod config;
 mod prompts;
 mod user;
