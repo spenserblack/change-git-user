@@ -1,6 +1,6 @@
 use super::{change_config, User, Users};
 use anyhow::Result;
-use console::Term;
+use console::{style, Term};
 use dialoguer::{theme::ColorfulTheme, Confirm, Input};
 
 pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
@@ -57,7 +57,13 @@ pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
         change_config(&user)?;
     }
 
-    users.insert(alias, user);
+    if let Some(user) = users.insert(alias, user) {
+        eprintln!(
+            "{log} config {config} overwritten",
+            log = style("[WARNING]").yellow().bold(),
+            config = user,
+        )
+    }
 
     super::write_users(&users)
 }
