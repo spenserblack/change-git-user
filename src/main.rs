@@ -43,7 +43,7 @@ fn main() -> Result<()> {
     match selection {
         ActionChoice::Add => add::main(users, term, theme),
         ActionChoice::Select => select::main(users, term, theme),
-        ActionChoice::Delete => unimplemented!("Deleting user config(s)"),
+        ActionChoice::Delete => delete::main(users, term, theme),
     }
 }
 
@@ -91,5 +91,6 @@ impl fmt::Display for ActionChoice {
 
 mod add;
 mod config;
+mod delete;
 mod select;
 mod user;
