@@ -14,7 +14,11 @@ fn main() -> Result<()> {
     let users = read_users();
 
     let action_choices = if users.is_some() {
-        vec![ActionChoice::Add, ActionChoice::Select]
+        vec![
+            ActionChoice::Add,
+            ActionChoice::Select,
+            ActionChoice::Delete,
+        ]
     } else {
         vec![ActionChoice::Add]
     };
@@ -38,7 +42,8 @@ fn main() -> Result<()> {
 
     match selection {
         ActionChoice::Add => add::main(users, term, theme),
-        _ => select::main(users, term, theme),
+        ActionChoice::Select => select::main(users, term, theme),
+        ActionChoice::Delete => unimplemented!("Deleting user config(s)"),
     }
 }
 
@@ -69,6 +74,7 @@ fn write_users(users: &Users) -> Result<()> {
 enum ActionChoice {
     Add,
     Select,
+    Delete,
 }
 
 impl fmt::Display for ActionChoice {
@@ -78,6 +84,7 @@ impl fmt::Display for ActionChoice {
         match self {
             Add => write!(f, "Add a new user config"),
             Select => write!(f, "Switch user"),
+            Delete => write!(f, "Remove user config(s)"),
         }
     }
 }
