@@ -26,7 +26,6 @@ cgu
 - Switch `user.name` and `user.email` config
 - Assign an optional `user.signingKey` to the config
 - Give the config a name to remember it by (e.g. "Work" or "Personal")
-- *Does not* execute `git` commands -- uses `git2` to discover a repository
-  and manipulate its config
+- uses `git2` to discover a repository and manipulate its config
 
 [Crates.io Link]: https://crates.io/crates/change-git-user
