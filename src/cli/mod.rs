@@ -50,6 +50,7 @@ pub fn cgu_app<'a, 'b>(add: &str, select: &str, delete: &str, view: &str) -> App
             Arg::with_name("names")
                 .takes_value(true)
                 .min_values(1)
+                .required(true)
                 .value_name("config name")
                 .help("Name(s) of the config settings to remove"),
         );
