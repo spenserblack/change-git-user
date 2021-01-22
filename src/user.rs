@@ -1,6 +1,7 @@
 use console::style;
+use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
-use std::{collections::HashMap, fmt};
+use std::fmt;
 
 #[derive(Deserialize, Serialize)]
 pub struct User {
@@ -27,4 +28,4 @@ impl fmt::Display for User {
     }
 }
 
-pub type Users = HashMap<String, User>;
+pub type Users = IndexMap<String, User>;
