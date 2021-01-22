@@ -40,6 +40,7 @@ pub fn cgu_app<'a, 'b>(add: &str, select: &str, delete: &str, view: &str) -> App
         .arg(
             Arg::with_name("name")
                 .takes_value(true)
+                .required(true)
                 .value_name("config name")
                 .help("Name of the set of config settings to change to"),
         );
