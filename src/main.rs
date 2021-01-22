@@ -7,8 +7,19 @@ pub use user::{User, Users};
 
 const DATA_FILENAME: &str = "change-git-user.users.toml";
 
+const ADD_SUBCOMMAND: &str = "add";
+const SELECT_SUBCOMMAND: &str = "select";
+const DELETE_SUBCOMMAND: &str = "delete";
+const VIEW_SUBCOMMAND: &str = "view";
+
 fn main() -> Result<()> {
-    let _ = cli::cgu_app().get_matches();
+    let _ = cli::cgu_app(
+        ADD_SUBCOMMAND,
+        SELECT_SUBCOMMAND,
+        DELETE_SUBCOMMAND,
+        VIEW_SUBCOMMAND,
+    )
+    .get_matches();
 
     let term = Term::stderr();
     let theme = ColorfulTheme::default();

@@ -3,8 +3,8 @@ use clap::{crate_description, crate_name, crate_version, App, AppSettings, Arg, 
 const AFTER_HELP: &str = "Execute without any sub-commands \
 to start an interactive prompt";
 
-pub fn cgu_app<'a, 'b>() -> App<'a, 'b> {
-    let add = SubCommand::with_name("add")
+pub fn cgu_app<'a, 'b>(add: &str, select: &str, delete: &str, view: &str) -> App<'a, 'b> {
+    let add = SubCommand::with_name(add)
         .about("Add a set of git config settings")
         .arg(
             Arg::with_name("user.name")
@@ -35,7 +35,7 @@ pub fn cgu_app<'a, 'b>() -> App<'a, 'b> {
                 .takes_value(true)
                 .help("A name to give to the set of config settings"),
         );
-    let select = SubCommand::with_name("select")
+    let select = SubCommand::with_name(select)
         .about("Choose a set of git config settings to change to")
         .arg(
             Arg::with_name("name")
@@ -43,7 +43,7 @@ pub fn cgu_app<'a, 'b>() -> App<'a, 'b> {
                 .value_name("config name")
                 .help("Name of the set of config settings to change to"),
         );
-    let delete = SubCommand::with_name("delete")
+    let delete = SubCommand::with_name(delete)
         .about("Remove one or more set of git config settings")
         .arg(
             Arg::with_name("names")
@@ -52,7 +52,7 @@ pub fn cgu_app<'a, 'b>() -> App<'a, 'b> {
                 .value_name("config name")
                 .help("Name(s) of the config settings to remove"),
         );
-    let view = SubCommand::with_name("view")
+    let view = SubCommand::with_name(view)
         .about("View the details of a set of config settings")
         .arg(
             Arg::with_name("all")
