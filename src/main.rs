@@ -15,16 +15,6 @@ const VIEW_SUBCOMMAND: &str = "view";
 fn main() -> Result<()> {
     let users = read_users();
 
-    let action_choices = if users.is_some() {
-        vec![
-            ActionChoice::Add,
-            ActionChoice::Select,
-            ActionChoice::Delete,
-        ]
-    } else {
-        vec![ActionChoice::Add]
-    };
-
     let users = match users {
         Some(Ok(users)) => users,
         Some(Err(e)) => return Err(e),
@@ -51,6 +41,16 @@ fn main() -> Result<()> {
     if let Some(matches) = matches.subcommand_matches(VIEW_SUBCOMMAND) {
         return cli::view::main(users, matches);
     }
+
+    let action_choices = if !users.is_empty() {
+        vec![
+            ActionChoice::Add,
+            ActionChoice::Select,
+            ActionChoice::Delete,
+        ]
+    } else {
+        vec![ActionChoice::Add]
+    };
 
     let term = Term::stderr();
     let theme = ColorfulTheme::default();
