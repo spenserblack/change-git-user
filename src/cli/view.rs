@@ -3,6 +3,13 @@ use anyhow::{Context, Result};
 use clap::ArgMatches;
 
 pub fn main<'a>(users: Users, matches: &ArgMatches<'a>) -> Result<()> {
+    if matches.is_present("all") {
+        for (name, user) in users.iter() {
+            println!("{name}: {user}", name = name, user = user);
+        }
+        return Ok(());
+    }
+
     let name = matches.value_of("name").unwrap();
 
     let user = users
