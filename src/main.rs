@@ -13,7 +13,13 @@ fn main() -> Result<()> {
 
     let users = read_users();
 
-    let action_choices = if users.is_some() {
+    let users = match users {
+        Some(Ok(users)) => users,
+        Some(Err(e)) => return Err(e),
+        None => Users::default(),
+    };
+
+    let action_choices = if !users.is_empty() {
         vec![
             ActionChoice::Add,
             ActionChoice::Select,
@@ -21,12 +27,6 @@ fn main() -> Result<()> {
         ]
     } else {
         vec![ActionChoice::Add]
-    };
-
-    let users = match users {
-        Some(Ok(users)) => users,
-        Some(Err(e)) => return Err(e),
-        None => Users::default(),
     };
 
     let selection = Select::with_theme(&theme)
