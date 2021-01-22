@@ -13,17 +13,6 @@ const DELETE_SUBCOMMAND: &str = "delete";
 const VIEW_SUBCOMMAND: &str = "view";
 
 fn main() -> Result<()> {
-    let _ = cli::cgu_app(
-        ADD_SUBCOMMAND,
-        SELECT_SUBCOMMAND,
-        DELETE_SUBCOMMAND,
-        VIEW_SUBCOMMAND,
-    )
-    .get_matches();
-
-    let term = Term::stderr();
-    let theme = ColorfulTheme::default();
-
     let users = read_users();
 
     let action_choices = if users.is_some() {
@@ -41,6 +30,17 @@ fn main() -> Result<()> {
         Some(Err(e)) => return Err(e),
         None => Users::default(),
     };
+
+    let _ = cli::cgu_app(
+        ADD_SUBCOMMAND,
+        SELECT_SUBCOMMAND,
+        DELETE_SUBCOMMAND,
+        VIEW_SUBCOMMAND,
+    )
+    .get_matches();
+
+    let term = Term::stderr();
+    let theme = ColorfulTheme::default();
 
     let selection = Select::with_theme(&theme)
         .with_prompt("What do you want to do?")
