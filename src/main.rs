@@ -31,13 +31,17 @@ fn main() -> Result<()> {
         None => Users::default(),
     };
 
-    let _ = cli::cgu_app(
+    let matches = cli::cgu_app(
         ADD_SUBCOMMAND,
         SELECT_SUBCOMMAND,
         DELETE_SUBCOMMAND,
         VIEW_SUBCOMMAND,
     )
     .get_matches();
+
+    if let Some(matches) = matches.subcommand_matches(ADD_SUBCOMMAND) {
+        return cli::add::main(users, matches);
+    }
 
     let term = Term::stderr();
     let theme = ColorfulTheme::default();

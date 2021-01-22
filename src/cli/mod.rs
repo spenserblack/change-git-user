@@ -79,3 +79,5 @@ pub fn cgu_app<'a, 'b>(add: &str, select: &str, delete: &str, view: &str) -> App
         .subcommand(delete)
         .subcommand(view)
 }
+
+pub mod add;
