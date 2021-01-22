@@ -48,6 +48,9 @@ fn main() -> Result<()> {
     if let Some(matches) = matches.subcommand_matches(DELETE_SUBCOMMAND) {
         return cli::delete::main(users, matches);
     }
+    if let Some(matches) = matches.subcommand_matches(VIEW_SUBCOMMAND) {
+        return cli::view::main(users, matches);
+    }
 
     let term = Term::stderr();
     let theme = ColorfulTheme::default();
