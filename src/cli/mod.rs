@@ -81,3 +81,4 @@ pub fn cgu_app<'a, 'b>(add: &str, select: &str, delete: &str, view: &str) -> App
 }
 
 pub mod add;
+pub mod select;
