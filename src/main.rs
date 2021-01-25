@@ -7,11 +7,6 @@ pub use user::{User, Users};
 
 const DATA_FILENAME: &str = "change-git-user.users.toml";
 
-const ADD_SUBCOMMAND: &str = "add";
-const SELECT_SUBCOMMAND: &str = "select";
-const DELETE_SUBCOMMAND: &str = "delete";
-const VIEW_SUBCOMMAND: &str = "view";
-
 fn main() -> Result<()> {
     let users = read_users();
 
@@ -21,25 +16,10 @@ fn main() -> Result<()> {
         None => Users::default(),
     };
 
-    let matches = cli::cgu_app(
-        ADD_SUBCOMMAND,
-        SELECT_SUBCOMMAND,
-        DELETE_SUBCOMMAND,
-        VIEW_SUBCOMMAND,
-    )
-    .get_matches();
+    let cli = cli::Cli::new();
 
-    if let Some(matches) = matches.subcommand_matches(ADD_SUBCOMMAND) {
-        return cli::add::main(users, matches);
-    }
-    if let Some(matches) = matches.subcommand_matches(SELECT_SUBCOMMAND) {
-        return cli::select::main(users, matches);
-    }
-    if let Some(matches) = matches.subcommand_matches(DELETE_SUBCOMMAND) {
-        return cli::delete::main(users, matches);
-    }
-    if let Some(matches) = matches.subcommand_matches(VIEW_SUBCOMMAND) {
-        return cli::view::main(users, matches);
+    if cli.used() {
+        return cli.main(users);
     }
 
     let action_choices = if !users.is_empty() {
