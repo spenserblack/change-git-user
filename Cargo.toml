@@ -1,6 +1,6 @@
 [package]
 name = "change-git-user"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Spenser Black <spenserblack01@gmail.com>"]
 edition = "2018"
 license = "MIT"
@@ -24,7 +24,7 @@ anyhow = "1"
 clap = "2"
 console = "0.13"
 dialoguer = "0.7"
-dirs = "3"
+dirs = { package = "dirs-next", version = "2" }
 git2 = { version = "0.13", default-features = false }
 indexmap = { version = "1", features = ["serde-1"] }
 serde = { version = "1", features = ["derive"] }
