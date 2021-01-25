@@ -7,10 +7,12 @@ pub use user::{User, Users};
 
 const DATA_FILENAME: &str = "change-git-user.users.toml";
 
-fn main() -> Result<()> {
-    let term = Term::stderr();
-    let theme = ColorfulTheme::default();
+const ADD_SUBCOMMAND: &str = "add";
+const SELECT_SUBCOMMAND: &str = "select";
+const DELETE_SUBCOMMAND: &str = "delete";
+const VIEW_SUBCOMMAND: &str = "view";
 
+fn main() -> Result<()> {
     let users = read_users();
 
     let users = match users {
@@ -18,6 +20,27 @@ fn main() -> Result<()> {
         Some(Err(e)) => return Err(e),
         None => Users::default(),
     };
+
+    let matches = cli::cgu_app(
+        ADD_SUBCOMMAND,
+        SELECT_SUBCOMMAND,
+        DELETE_SUBCOMMAND,
+        VIEW_SUBCOMMAND,
+    )
+    .get_matches();
+
+    if let Some(matches) = matches.subcommand_matches(ADD_SUBCOMMAND) {
+        return cli::add::main(users, matches);
+    }
+    if let Some(matches) = matches.subcommand_matches(SELECT_SUBCOMMAND) {
+        return cli::select::main(users, matches);
+    }
+    if let Some(matches) = matches.subcommand_matches(DELETE_SUBCOMMAND) {
+        return cli::delete::main(users, matches);
+    }
+    if let Some(matches) = matches.subcommand_matches(VIEW_SUBCOMMAND) {
+        return cli::view::main(users, matches);
+    }
 
     let action_choices = if !users.is_empty() {
         vec![
@@ -28,6 +51,9 @@ fn main() -> Result<()> {
     } else {
         vec![ActionChoice::Add]
     };
+
+    let term = Term::stderr();
+    let theme = ColorfulTheme::default();
 
     let selection = Select::with_theme(&theme)
         .with_prompt("What do you want to do?")
@@ -89,6 +115,7 @@ impl fmt::Display for ActionChoice {
     }
 }
 
+mod cli;
 mod config;
 mod prompts;
 mod user;
