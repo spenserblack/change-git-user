@@ -3,6 +3,7 @@ use anyhow::{Context, Result};
 use clap::{
     crate_description, crate_name, crate_version, App, AppSettings, Arg, ArgMatches, SubCommand,
 };
+use std::ffi::OsStr;
 
 const AFTER_HELP: &str = "Execute without any sub-commands \
 to start an interactive prompt";
@@ -12,7 +13,7 @@ pub struct Cli<'a> {
 }
 
 impl<'a> Cli<'a> {
-    pub fn new() -> Cli<'a> {
+    pub fn new(data_filepath: &'a OsStr) -> Cli<'a> {
         let add = SubCommand::with_name("add")
             .about("Add a set of git config settings")
             .arg(
@@ -80,7 +81,7 @@ impl<'a> Cli<'a> {
                     .help("Name of the set of config settings to view"),
             );
 
-        let matches = App::new(crate_name!())
+        let app = App::new(crate_name!())
             .version(crate_version!())
             .about(crate_description!())
             .after_help(AFTER_HELP)
@@ -88,8 +89,17 @@ impl<'a> Cli<'a> {
             .subcommand(add)
             .subcommand(select)
             .subcommand(delete)
-            .subcommand(view)
-            .get_matches();
+            .subcommand(view);
+
+        let data_file = Arg::with_name("data file")
+            .takes_value(true)
+            .long("data-file")
+            .value_name("filepath")
+            .default_value_os(data_filepath);
+
+        let app = app.arg(data_file);
+
+        let matches = app.get_matches();
 
         Cli { matches }
     }

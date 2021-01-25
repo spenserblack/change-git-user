@@ -16,7 +16,12 @@ fn main() -> Result<()> {
         None => Users::default(),
     };
 
-    let cli = cli::Cli::new();
+    let data_dir = dirs::data_local_dir()
+        .map(|p: PathBuf| p.join(DATA_FILENAME))
+        .unwrap();
+    let data_dir = data_dir.as_os_str();
+
+    let cli = cli::Cli::new(data_dir);
 
     if cli.used() {
         return cli.main(users);
