@@ -17,10 +17,23 @@ cargo install change-git-user
 
 ## Usage
 
+### Prompts
+
 ```bash
 # This will spawn prompts to guide you through managing user configurations
 cgu
 ```
+
+### CLI
+
+If you don't want use use prompts, you can use subcommands instead.
+The subcommands are:
+
+- `add`
+- `select`
+- `delete`
+- `view`
+
 ## Features
 
 - Switch `user.name` and `user.email` config
