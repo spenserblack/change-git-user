@@ -119,6 +119,12 @@ impl<'a> Cli<'a> {
         result.context("Couldn't process CLI")
     }
 
+    pub fn data_filepath(&self) -> Result<&OsStr> {
+        self.matches
+            .value_of_os("data file")
+            .context("No value for data filepath")
+    }
+
     /// Was a CLI sub-command used.
     /// i.e. Should interactive prompt not be displayed.
     pub fn used(&self) -> bool {
