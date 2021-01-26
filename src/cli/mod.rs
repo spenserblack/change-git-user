@@ -3,6 +3,7 @@ use anyhow::{Context, Result};
 use clap::{
     crate_description, crate_name, crate_version, App, AppSettings, Arg, ArgMatches, SubCommand,
 };
+use std::ffi::OsStr;
 
 const AFTER_HELP: &str = "Execute without any sub-commands \
 to start an interactive prompt";
@@ -12,7 +13,7 @@ pub struct Cli<'a> {
 }
 
 impl<'a> Cli<'a> {
-    pub fn new() -> Cli<'a> {
+    pub fn new(data_filepath: &'a OsStr) -> Cli<'a> {
         let add = SubCommand::with_name("add")
             .about("Add a set of git config settings")
             .arg(
@@ -80,7 +81,7 @@ impl<'a> Cli<'a> {
                     .help("Name of the set of config settings to view"),
             );
 
-        let matches = App::new(crate_name!())
+        let app = App::new(crate_name!())
             .version(crate_version!())
             .about(crate_description!())
             .after_help(AFTER_HELP)
@@ -88,25 +89,48 @@ impl<'a> Cli<'a> {
             .subcommand(add)
             .subcommand(select)
             .subcommand(delete)
-            .subcommand(view)
-            .get_matches();
+            .subcommand(view);
+
+        let data_file = Arg::with_name("data file")
+            .takes_value(true)
+            .long("data-file")
+            .value_name("filepath")
+            .default_value_os(data_filepath);
+
+        let app = app.arg(data_file);
+
+        let matches = app.get_matches();
 
         Cli { matches }
     }
 
     pub fn main(&self, users: Users) -> Result<()> {
         let result = if let Some(matches) = self.matches.subcommand_matches("add") {
-            add::main(users, matches)
+            add::main(
+                users,
+                matches,
+                self.data_filepath().context("Couldn't add user")?,
+            )
         } else if let Some(matches) = self.matches.subcommand_matches("select") {
             select::main(users, matches)
         } else if let Some(matches) = self.matches.subcommand_matches("delete") {
-            delete::main(users, matches)
+            delete::main(
+                users,
+                matches,
+                self.data_filepath().context("Couldn't delete user")?,
+            )
         } else if let Some(matches) = self.matches.subcommand_matches("view") {
             view::main(users, matches)
         } else {
             Ok(())
         };
         result.context("Couldn't process CLI")
+    }
+
+    pub fn data_filepath(&self) -> Result<&OsStr> {
+        self.matches
+            .value_of_os("data file")
+            .context("No value for data filepath")
     }
 
     /// Was a CLI sub-command used.
