@@ -2,8 +2,14 @@ use crate::{change_config, write_users, User, Users};
 use anyhow::Result;
 use console::{style, Term};
 use dialoguer::{theme::ColorfulTheme, Confirm, Input};
+use std::path::Path;
 
-pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
+pub fn main<P: AsRef<Path>>(
+    mut users: Users,
+    term: Term,
+    theme: ColorfulTheme,
+    path: P,
+) -> Result<()> {
     let name: String = Input::with_theme(&theme)
         .with_prompt("user.name")
         .interact_text_on(&term)?;
@@ -75,5 +81,5 @@ pub fn main(mut users: Users, term: Term, theme: ColorfulTheme) -> Result<()> {
     }
     users.insert(alias, user);
 
-    write_users(&users)
+    write_users(&users, path)
 }

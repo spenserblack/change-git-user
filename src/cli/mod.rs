@@ -106,11 +106,19 @@ impl<'a> Cli<'a> {
 
     pub fn main(&self, users: Users) -> Result<()> {
         let result = if let Some(matches) = self.matches.subcommand_matches("add") {
-            add::main(users, matches)
+            add::main(
+                users,
+                matches,
+                self.data_filepath().context("Couldn't add user")?,
+            )
         } else if let Some(matches) = self.matches.subcommand_matches("select") {
             select::main(users, matches)
         } else if let Some(matches) = self.matches.subcommand_matches("delete") {
-            delete::main(users, matches)
+            delete::main(
+                users,
+                matches,
+                self.data_filepath().context("Couldn't delete user")?,
+            )
         } else if let Some(matches) = self.matches.subcommand_matches("view") {
             view::main(users, matches)
         } else {

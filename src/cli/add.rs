@@ -2,8 +2,9 @@ use crate::{write_users, User, Users};
 use anyhow::Result;
 use clap::ArgMatches;
 use console::style;
+use std::path::Path;
 
-pub fn main<'a>(mut users: Users, matches: &ArgMatches<'a>) -> Result<()> {
+pub fn main<'a, P: AsRef<Path>>(mut users: Users, matches: &ArgMatches<'a>, path: P) -> Result<()> {
     let name = matches.value_of("user.name").unwrap();
     let email = matches.value_of("user.email").unwrap();
     let signing_key = matches.value_of("user.signingkey").map(String::from);
@@ -33,5 +34,5 @@ pub fn main<'a>(mut users: Users, matches: &ArgMatches<'a>) -> Result<()> {
     }
     users.insert(alias, user);
 
-    write_users(&users)
+    write_users(&users, path)
 }
