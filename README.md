@@ -15,6 +15,13 @@ Inspired by [Git-User-Switch](https://github.com/geongeorge/Git-User-Switch).
 cargo install change-git-user
 ```
 
+## Features
+
+- Switch `user.name` and `user.email` config
+- Assign an optional `user.signingKey` to the config
+- Give the config a name to remember it by (e.g. "Work" or "Personal")
+- Uses `git2` to discover a repository and manipulate its config
+
 ## Usage
 
 ### Prompts
@@ -56,12 +63,5 @@ cgu select "My Config"
 # Delete the new config
 cgu delete "My Config"
 ```
-
-## Features
-
-- Switch `user.name` and `user.email` config
-- Assign an optional `user.signingKey` to the config
-- Give the config a name to remember it by (e.g. "Work" or "Personal")
-- Uses `git2` to discover a repository and manipulate its config
 
 [Crates.io Link]: https://crates.io/crates/change-git-user
