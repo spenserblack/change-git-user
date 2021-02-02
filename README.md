@@ -34,6 +34,29 @@ The subcommands are:
 - `delete`
 - `view`
 
+#### Examples
+
+```bash
+# view CLI options
+cgu --help
+
+# view subcommand help
+cgu <subcommand> --help
+
+# Add a config with the name "My Config"
+# Defaults to the user.name value ("My Name" in this example) if --name is not passed
+cgu add --name "My Config" "My Name" example@email.com
+
+# View all configs
+cgu view --all
+
+# Select the new config
+cgu select "My Config"
+
+# Delete the new config
+cgu delete "My Config"
+```
+
 ## Features
 
 - Switch `user.name` and `user.email` config
