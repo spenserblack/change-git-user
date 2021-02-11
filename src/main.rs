@@ -1,24 +1,31 @@
 use anyhow::{Context, Result};
 pub use config::change_config;
+#[cfg(feature = "prompts")]
 use console::Term;
+#[cfg(feature = "prompts")]
 use dialoguer::{theme::ColorfulTheme, Select};
-use std::{
-    fmt,
-    path::{Path, PathBuf},
-};
+use std::path::{Path, PathBuf};
 pub use user::{User, Users};
 
 const DATA_FILENAME: &str = "change-git-user.users.toml";
 
+#[cfg(any(feature = "cli", feature = "prompts"))]
 fn main() -> Result<()> {
     let data_dir = dirs::data_local_dir()
         .map(|p: PathBuf| p.join(DATA_FILENAME))
         .unwrap();
     let data_dir = data_dir.as_os_str();
 
+    #[cfg(feature = "cli")]
     let cli = cli::Cli::new(data_dir);
 
-    let users = read_users(cli.data_filepath().context("Couldn't read user data")?);
+    #[cfg(feature = "cli")]
+    let data_filepath = cli.data_filepath();
+
+    #[cfg(all(not(feature = "cli"), feature = "prompts"))]
+    let data_filepath: Result<_, anyhow::Error> = Ok(data_dir);
+
+    let users = read_users(data_filepath.context("Couldn't read user data")?);
 
     let users = match users {
         Some(Ok(users)) => users,
@@ -26,10 +33,34 @@ fn main() -> Result<()> {
         None => Users::default(),
     };
 
+    #[cfg(feature = "cli")]
     if cli.used() {
         return cli.main(users);
     }
 
+    #[cfg(all(feature = "cli", not(feature = "prompts")))]
+    {
+        println!("{}", cli.usage());
+        println!(concat!(
+            "Use ",
+            env!("CARGO_BIN_NAME"),
+            " --help for more details"
+        ));
+        Ok(())
+    }
+
+    #[cfg(all(feature = "cli", feature = "prompts"))]
+    let data_filepath = cli.data_filepath();
+
+    #[cfg(all(not(feature = "cli"), feature = "prompts"))]
+    let data_filepath = Ok(data_dir);
+
+    #[cfg(feature = "prompts")]
+    run_prompts(users, data_filepath)
+}
+
+#[cfg(feature = "prompts")]
+fn run_prompts<P: AsRef<Path>>(users: Users, data_filepath: Result<P>) -> Result<()> {
     let action_choices = if !users.is_empty() {
         vec![
             ActionChoice::Add,
@@ -54,7 +85,6 @@ fn main() -> Result<()> {
         None => return Ok(()),
     };
 
-    let data_filepath = cli.data_filepath();
     match selection {
         ActionChoice::Add => prompts::add::main(
             users,
@@ -70,6 +100,11 @@ fn main() -> Result<()> {
             data_filepath.context("Couldn't start user delete prompt")?,
         ),
     }
+}
+
+#[cfg(not(any(feature = "cli", feature = "prompts")))]
+fn main() {
+    compile_error!(r#"Cannot function when neither "cli" nor "prompts" features are enabled"#);
 }
 
 fn read_users<P: AsRef<Path>>(path: P) -> Option<Result<Users>> {
@@ -88,14 +123,16 @@ fn write_users<P: AsRef<Path>>(users: &Users, path: P) -> Result<()> {
     fs::write(path, users).context("Failed to write users to file")
 }
 
+#[cfg(feature = "prompts")]
 enum ActionChoice {
     Add,
     Select,
     Delete,
 }
 
-impl fmt::Display for ActionChoice {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+#[cfg(feature = "prompts")]
+impl std::fmt::Display for ActionChoice {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         use ActionChoice::*;
 
         match self {
@@ -106,7 +143,9 @@ impl fmt::Display for ActionChoice {
     }
 }
 
+#[cfg(feature = "cli")]
 mod cli;
 mod config;
+#[cfg(feature = "prompts")]
 mod prompts;
 mod user;

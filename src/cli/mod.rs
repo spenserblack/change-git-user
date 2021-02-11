@@ -138,6 +138,11 @@ impl<'a> Cli<'a> {
     pub fn used(&self) -> bool {
         self.matches.subcommand_name().is_some()
     }
+
+    /// CLI usage.
+    pub fn usage(&self) -> &str {
+        self.matches.usage()
+    }
 }
 
 pub mod add;
