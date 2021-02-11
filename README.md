@@ -13,6 +13,12 @@ Inspired by [Git-User-Switch](https://github.com/geongeorge/Git-User-Switch).
 ```bash
 # this will install the executable `cgu`
 cargo install change-git-user
+
+# enable only the cli
+cargo install --no-default-features --features=cli change-git-user
+
+# enable only prompts
+cargo install --no-default-features --features=prompts change-git-user
 ```
 
 ## Features
