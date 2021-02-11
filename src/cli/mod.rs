@@ -3,7 +3,7 @@ use anyhow::{Context, Result};
 use clap::{
     crate_description, crate_name, crate_version, App, AppSettings, Arg, ArgMatches, SubCommand,
 };
-use std::ffi::OsStr;
+use std::{ffi::OsStr, ops::Deref};
 
 const AFTER_HELP: &str = "Execute without any sub-commands \
 to start an interactive prompt";
@@ -138,10 +138,13 @@ impl<'a> Cli<'a> {
     pub fn used(&self) -> bool {
         self.matches.subcommand_name().is_some()
     }
+}
 
-    /// CLI usage.
-    pub fn usage(&self) -> &str {
-        self.matches.usage()
+impl<'a> Deref for Cli<'a> {
+    type Target = ArgMatches<'a>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.matches
     }
 }
 
