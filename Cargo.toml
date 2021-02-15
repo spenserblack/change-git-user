@@ -19,11 +19,16 @@ exclude = [
 name = "cgu"
 path = "src/main.rs"
 
+[features]
+default = ["prompts", "cli"]
+prompts = ["dialoguer"]
+cli = ["clap"]
+
 [dependencies]
 anyhow = "1"
-clap = "2"
+clap = { version = "2", optional = true }
 console = "0.13"
-dialoguer = "0.7"
+dialoguer = { version = "0.7", optional = true }
 dirs = { package = "dirs-next", version = "2" }
 git2 = { version = "0.13", default-features = false }
 indexmap = { version = "1", features = ["serde-1"] }
