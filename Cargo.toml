@@ -27,7 +27,7 @@ cli = ["clap"]
 [dependencies]
 anyhow = "1"
 clap = { version = "2", optional = true }
-console = "0.13"
+console = "0.14"
 dialoguer = { version = "0.7", optional = true }
 dirs = { package = "dirs-next", version = "2" }
 git2 = { version = "0.13", default-features = false }
