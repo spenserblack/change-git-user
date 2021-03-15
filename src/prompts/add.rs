@@ -57,7 +57,12 @@ pub fn main<P: AsRef<Path>>(
     let switch_user = Confirm::with_theme(&theme)
         .with_prompt("Switch to this user?")
         .default(true)
-        .interact_on(&term)?;
+        .interact_on_opt(&term)?;
+
+    let switch_user = match switch_user {
+        Some(b) => b,
+        None => return Ok(()),
+    };
 
     if switch_user {
         change_config(&user)?;
