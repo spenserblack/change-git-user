@@ -59,7 +59,7 @@ version = "1.2.0"
 dependencies = [
  "anyhow",
  "clap",
- "console 0.13.0",
+ "console",
  "dialoguer",
  "dirs-next",
  "git2",
@@ -85,22 +85,6 @@ dependencies = [
 
 [[package]]
 name = "console"
-version = "0.13.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a50aab2529019abfabfa93f1e6c41ef392f91fbf179b347a7e96abb524884a08"
-dependencies = [
- "encode_unicode",
- "lazy_static",
- "libc",
- "regex",
- "terminal_size",
- "unicode-width",
- "winapi",
- "winapi-util",
-]
-
-[[package]]
-name = "console"
 version = "0.14.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3993e6445baa160675931ec041a5e03ca84b9c6e32a056150d3aa2bdda0a1f45"
@@ -120,7 +104,7 @@ version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c9dd058f8b65922819fabb4a41e7d1964e56344042c26efbccd465202c23fa0c"
 dependencies = [
- "console 0.14.1",
+ "console",
  "lazy_static",
  "tempfile",
  "zeroize",
@@ -572,15 +556,6 @@ name = "winapi-i686-pc-windows-gnu"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
-
-[[package]]
-name = "winapi-util"
-version = "0.1.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "70ec6ce85bb158151cae5e5c87f95a8e97d2c0c4b001223f33a334e3ce5de178"
-dependencies = [
- "winapi",
-]
 
 [[package]]
 name = "winapi-x86_64-pc-windows-gnu"
