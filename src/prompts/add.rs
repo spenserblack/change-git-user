@@ -12,7 +12,7 @@ pub fn main<P: AsRef<Path>>(
 ) -> Result<()> {
     let name: String = Input::with_theme(&theme)
         .with_prompt("user.name")
-        .interact_text_on(&term)?;
+        .interact_on(&term)?;
 
     let email: String = Input::with_theme(&theme)
         .with_prompt("user.email")
@@ -23,7 +23,7 @@ pub fn main<P: AsRef<Path>>(
                 Err("Must be an email address")
             }
         })
-        .interact_text_on(&term)?;
+        .interact_on(&term)?;
 
     let signing_key: String = Input::with_theme(&theme)
         .with_prompt("(Optional) user.signingKey")
@@ -35,12 +35,12 @@ pub fn main<P: AsRef<Path>>(
                 Ok(())
             }
         })
-        .interact_text_on(&term)?;
+        .interact_on(&term)?;
 
     let mut alias: String = Input::with_theme(&theme)
         .with_prompt("Give this config a name")
         .with_initial_text(&name)
-        .interact_text_on(&term)?;
+        .interact_on(&term)?;
 
     let signing_key = if signing_key.is_empty() {
         None
