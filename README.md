@@ -11,7 +11,7 @@ Inspired by [Git-User-Switch](https://github.com/geongeorge/Git-User-Switch).
 ## Installation
 
 ```bash
-# this will install the executable `cgu`
+# this will install the executable `cgu` and `git-change-user`
 cargo install change-git-user
 
 # enable only the cli
@@ -29,6 +29,8 @@ cargo install --no-default-features --features=prompts change-git-user
 - Uses `git2` to discover a repository and manipulate its config
 
 ## Usage
+
+***NOTE*** You can use `cgu` and `git change-user` interchangeably.
 
 ### Prompts
 
