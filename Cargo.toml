@@ -31,8 +31,8 @@ cli = ["clap"]
 [dependencies]
 anyhow = "1"
 clap = { version = "2", optional = true }
-console = "0.14"
-dialoguer = { version = "0.8", optional = true }
+console = "0.15"
+dialoguer = { version = "0.9", optional = true }
 dirs = { package = "dirs-next", version = "2" }
 git2 = { version = "0.13", default-features = false }
 indexmap = { version = "1", features = ["serde-1"] }
