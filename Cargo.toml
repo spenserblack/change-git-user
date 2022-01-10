@@ -30,7 +30,7 @@ cli = ["clap"]
 
 [dependencies]
 anyhow = "1"
-clap = { version = "2", optional = true }
+clap = { version = "3", optional = true }
 console = "0.15"
 dialoguer = { version = "0.9", optional = true }
 dirs = { package = "dirs-next", version = "2" }
