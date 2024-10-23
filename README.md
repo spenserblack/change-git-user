@@ -8,6 +8,11 @@ Manage multiple git configurations
 
 Inspired by [Git-User-Switch](https://github.com/geongeorge/Git-User-Switch).
 
+## :warning: Archival Notice
+
+I've switched to just using [`includeIf`](https://git-scm.com/docs/git-config#Documentation/git-config.txt-includeIfltconditiongtpath)
+in my `.gitconfig`. Honestly, this works a lot better for me than having to constantly switch users via this command.
+
 ## Installation
 
 ```bash
